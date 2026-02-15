@@ -291,13 +291,47 @@ dotfiles/
 12. Copy `~/.local/bin/` scripts
 13. Copy LaunchAgents + `launchctl load`
 14. Apply text replacements
-15. Print manual checklist:
-    - Sign into 1Password
-    - Grant accessibility permissions (20 apps)
-    - Set login items (9 apps)
-    - Sign into Tailscale
-    - Install system extensions (Karabiner, Tailscale)
-    - Verify security settings (firewall, FileVault, Gatekeeper)
+15. Print manual checklist (ordered by dependency):
+
+    **Step 1 -- 1Password (everything depends on this)**
+    - Sign into 1Password in the browser + desktop app
+    - Enable the SSH agent in 1Password settings
+    - Run `op signin` to authenticate the CLI
+    - This unlocks: git signing, SSH, gh auth, fly/railway tokens, API keys
+
+    **Step 2 -- Authenticate CLIs (need 1Password first)**
+    - `gh auth login` (GitHub CLI)
+    - `fly auth login` (Fly.io)
+    - `railway login` (Railway)
+    - Retrieve API keys from 1Password vault for: nia, ntfy, etc.
+
+    **Step 3 -- System extensions (need to approve in System Settings)**
+    - Open Karabiner-Elements (triggers DriverKit install prompt)
+    - Open Tailscale, sign in, approve network extension
+
+    **Step 4 -- Accessibility permissions (20 apps)**
+    System Settings > Privacy & Security > Accessibility:
+    - Window management: yabai, skhd, borders, Hammerspoon
+    - Input: Karabiner, LinearMouse, UnnaturalScrollWheels, footswitch
+    - Utilities: Raycast, Ghostty, DockDoor, boringNotch, Ice, Thaw
+    - Other: Discord, Handy, ScreenStudio, Claude Desktop, OmniWM, Logi
+
+    **Step 5 -- Login items**
+    System Settings > General > Login Items, add:
+    AlDente, Raycast, LinearMouse, Thaw, Vivid, FineTune,
+    boringNotch, CCUsage, DockDoor
+
+    **Step 6 -- Sign into apps**
+    - Helium (browser -- sync bookmarks)
+    - Discord
+    - Spotify
+    - iCloud / Apple ID (if not done during macOS setup)
+    - Raycast (import settings + extensions)
+
+    **Step 7 -- Verify security posture**
+    - FileVault: decide whether to enable (currently OFF)
+    - Firewall: decide whether to enable (currently OFF)
+    - Gatekeeper: currently disabled (intentional for dev tools)
 
 ### Principles
 - Idempotent: every step checks before acting
